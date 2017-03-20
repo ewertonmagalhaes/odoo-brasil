@@ -16,8 +16,7 @@ class Santander240(Cnab240):
 
     def _prepare_header(self):
         vals = super(Santander240, self)._prepare_header()
-        vals['cedente_dv_ag_cc'] = int(vals['cedente_dv_ag_cc'])
-        vals['cedente_agencia_dv'] = int(vals['cedente_agencia_dv'])
+        vals['cedente_agencia_dv'] = 0  # Não obrigatório
         vals['codigo_transmissao'] = \
             int(self.order.payment_mode_id.boleto_cnab_code)
         return vals
@@ -27,13 +26,10 @@ class Santander240(Cnab240):
 
         carteira, nosso_numero, digito = self.nosso_numero(line.nosso_numero)
 
-        vals['cedente_dv_ag_cc'] = int(vals['cedente_dv_ag_cc'])
-        vals['cedente_agencia_conta_dv'] = int(vals['cedente_dv_ag_cc'])
         vals['carteira_numero'] = int(carteira)
         vals['nosso_numero'] = int(line.nosso_numero)
         vals['nosso_numero_dv'] = int(digito)
-        dig_ag = int(vals['cedente_agencia_dv'])
-        vals['cedente_agencia_dv'] = dig_ag
+        vals['cedente_agencia_dv'] = 0  # Não obrigatório
         vals['conta_cobranca'] = vals['cedente_conta']
         vals['conta_cobranca_dv'] = int(vals['cedente_conta_dv'])
         vals['forma_cadastramento'] = 1
